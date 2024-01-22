@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Camera Access Example</title>
+                </head>
+                <body>
+                    <h1>Camera Access Example</h1>
+                    <button onclick="openCamera()">Open Camera</button>
+                <script>
+                window.onload = function() {
+                if (window.consoleLog) {
+                console.log = window.consoleLog;
+                }
+                };
+                </script>
+                <script>
+                function openCamera() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    var video = document.createElement('video');
+                    video.srcObject = stream;
+                    document.body.appendChild(video);
+                    video.play();
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
+                });
+                } else {
+                console.error('getUserMedia is not supported in this browser');
+                }
+                }
+                </script>
+                <script>
+                window.webkit.messageHandlers.consoleLog = {
+                postMessage: function(message) {
+                console.log("Console Log: " + message);
+                }
+                };
+                </script>
+                </body>
+                </html>
